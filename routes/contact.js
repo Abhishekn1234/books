@@ -1,0 +1,28 @@
+
+
+const express=require("express");
+const router=express.Router();
+const Submission = require('../models/Contactsubmission');
+router.post('/submit-form', async (req, res) => {
+  try {
+    const { Name, email,Address, mobileNumber, message } = req.body;
+
+    
+    const newSubmission = new Submission({
+      Name,
+      email,
+       Address,
+      mobileNumber,
+      message,
+    });
+
+    await newSubmission.save();
+
+   
+    res.status(200).json({ message: 'Form submitted successfully' });
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+module.exports=router;
